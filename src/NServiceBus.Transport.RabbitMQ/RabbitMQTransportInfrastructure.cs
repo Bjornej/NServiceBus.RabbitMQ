@@ -122,11 +122,21 @@
 
         IRoutingTopology CreateRoutingTopology()
         {
-            var durable = settings.DurableMessagesEnabled();
-
             if (!settings.TryGet(out Func<bool, IRoutingTopology> topologyFactory))
             {
                 throw new InvalidOperationException("A routing topology factory has not been configured. Configure a routing topology with a TransportExtensions<RabbitMQTransport>.UseXXXRoutingTopology() method.");
+            }
+
+            if (!settings.TryGet(SettingsKeys.UseDurableExchangesAndQueues, out bool durable))
+            {
+                if (settings.DurableMessagesEnabled())
+                {
+                    durable = true;
+                }
+                else
+                {
+                    throw new Exception("When durable messages are disabled, 'EndpointConfiguration.UseTransport<RabbitMQTransport>().UseDurableExchangesAndQueues()' needs to be called to specify exchange and queue durability settings.");
+                }
             }
 
             return topologyFactory(durable);
