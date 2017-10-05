@@ -163,7 +163,7 @@
         /// <returns></returns>
         public static TransportExtensions<RabbitMQTransport> UseDurableExchangesAndQueues(this TransportExtensions<RabbitMQTransport> transportExtensions, bool useDurableExchangesAndQueues)
         {
-            transportExtensions.GetSettings().Set(SettingsKeys.UseExternalAuthMechanism, useDurableExchangesAndQueues);
+            transportExtensions.GetSettings().Set(SettingsKeys.UseDurableExchangesAndQueues, useDurableExchangesAndQueues);
             return transportExtensions;
         }
     }
