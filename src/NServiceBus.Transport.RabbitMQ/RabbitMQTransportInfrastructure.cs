@@ -127,19 +127,17 @@
                 throw new InvalidOperationException("A routing topology factory has not been configured. Configure a routing topology with a TransportExtensions<RabbitMQTransport>.UseXXXRoutingTopology() method.");
             }
 
-            if (!settings.TryGet(SettingsKeys.UseDurableExchangesAndQueues, out bool durable))
+            if (!settings.TryGet(SettingsKeys.UseDurableExchangesAndQueues, out bool useDurableExchangesAndQueues))
             {
-                if (settings.DurableMessagesEnabled())
-                {
-                    durable = true;
-                }
-                else
+                if (!settings.DurableMessagesEnabled())
                 {
                     throw new Exception("When durable messages are disabled, 'EndpointConfiguration.UseTransport<RabbitMQTransport>().UseDurableExchangesAndQueues()' must also be called to specify exchange and queue durability settings.");
                 }
+
+                useDurableExchangesAndQueues = true;
             }
 
-            return topologyFactory(durable);
+            return topologyFactory(useDurableExchangesAndQueues);
         }
 
         IPushMessages CreateMessagePump()
