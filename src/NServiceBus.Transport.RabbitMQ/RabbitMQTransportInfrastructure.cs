@@ -135,7 +135,7 @@
                 }
                 else
                 {
-                    throw new Exception("When durable messages are disabled, 'EndpointConfiguration.UseTransport<RabbitMQTransport>().UseDurableExchangesAndQueues()' needs to be called to specify exchange and queue durability settings.");
+                    throw new Exception("When durable messages are disabled, 'EndpointConfiguration.UseTransport<RabbitMQTransport>().UseDurableExchangesAndQueues()' must also be called to specify exchange and queue durability settings.");
                 }
             }
 
